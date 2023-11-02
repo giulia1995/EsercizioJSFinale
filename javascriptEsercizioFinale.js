@@ -151,8 +151,7 @@ function displayResults() {
 
   const titleInput = document.getElementById("titleInput");
   const locationInput = document.getElementById("locationInput");
-  const resultsList = document.getElementById("resultsList");
-
+ 
 // Verifico se entrambi gli input sono completi altrimenti alert
   if (titleInput.value.trim() === "" || locationInput.value.trim() === "") {
     showAlert("Enter both your job title and geographic location.");
@@ -169,16 +168,14 @@ function displayResults() {
   const resultsCount = document.getElementById("resultsCount"); // elemento counter
   const results = searchJobs(titleInput.value, locationInput.value);
   const count = results.length; // counter dei risultati
+//const resultsList = document.getElementById("resultsList");
 
   console.log("Jobs found:", count);
   resultsCount.textContent = `Jobs Result: ${count}`; // Mostro il counter
-
-  // Qui svuoto la lista dei risultati
   resultsList.innerHTML = "";
 
   /*
       Qui avevo usato append.Child per completare la funzione e mostrare i risultati
-
       for (let i = 0; i < count; i++) {
         const job = results[i];
         const listItem = document.createElement("li");
@@ -199,7 +196,7 @@ function displayResults() {
     resultsHTML += `<li>${job.title} - ${job.location}</li>`;
   }
   resultsList.innerHTML = resultsHTML;
-  //Svuoto i campi input
+  //Svuoto i campi input dop aver mostrato i risultati
   titleInput.value = "";
   locationInput.value = "";
 }
