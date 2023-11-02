@@ -122,11 +122,11 @@ const jobs = [
       location: "US, NY, Saint Bonaventure",
     },
   ]
-     // Funzione per ricerca lavori
+     // ricerca lavori
      function searchJobs(title, location) {
       console.log("Ricerca in corso...");
   
-      title = title.toLowerCase(); // Trasforma in lettere minuscole case insensitive
+      title = title.toLowerCase();
       location = location.toLowerCase();
   
       const results = [];
@@ -143,42 +143,44 @@ const jobs = [
       return results;
     }
   
-    // Funzione per mostrare un alert quando non si compilano entrambi i campi
+    // alert quando non si compilano entrambi i campi
     function showAlert(message) {
       alert(message);
     }
   
-    // Funzione per mostrare i risultati nella pagina
+    // mostro i risultati nella pagina
     function displayResults() {
       console.log("Visualizzazione dei risultati...");
-  
-      const titleInput = document.getElementById("titleInput").value;
-      const locationInput = document.getElementById("locationInput").value;
+
+      const titleInput = document.getElementById("titleInput");
+      const locationInput = document.getElementById("locationInput");
       const resultsList = document.getElementById("resultsList");
-      const resultsCount = document.getElementById("resultsCount"); // Aggiunto elemento per mostrare il conteggio
-  
-      // Verifica se  gli input sono completi
-      if (titleInput.trim() === "" || locationInput.trim() === "") {
-        showAlert("Compila entrambi i campi");
+      const resultsCount = document.getElementById("resultsCount"); // elemento counter
+
+      // Verifico se entrambi gli input sono completi
+      if (titleInput.value.trim() === "" || locationInput.value.trim() === "") {
+        showAlert("Enter both your job title and geographic location.");
         return;
       }
-  
-      // Pulisci la lista dei risultati
-      resultsList.innerHTML = "";
-  
-      const results = searchJobs(titleInput, locationInput);
-      const count = results.length; // conteggio risultati
-  
+
+      const results = searchJobs(titleInput.value, locationInput.value);
+      const count = results.length; // counter dei risultati
+
       console.log("Numero di inserzioni trovate:", count);
-      resultsCount.textContent = `Inserzioni trovate: ${count}`; // Mostra conteggio
-  
+      resultsCount.textContent = `Jobs Result: ${count}`; // Mostra il conteggio
+
+      // Svuoto lista risultati
+      resultsList.innerHTML = "";
+
       for (let i = 0; i < count; i++) {
         const job = results[i];
         const listItem = document.createElement("li");
         listItem.textContent = `${job.title} - ${job.location}`;
         resultsList.appendChild(listItem);
       }
+      titleInput.value = "";
+      locationInput.value = "";
     }
-  
+
     const searchButton = document.getElementById("searchButton");
     searchButton.addEventListener("click", displayResults);
