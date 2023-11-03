@@ -122,58 +122,70 @@ const jobs = [
     location: "US, NY, Saint Bonaventure",
   },
 ];
-// funzione per inserire i lavori nella ricerca e rendo la funzione case insensitive
-function searchJobs(title, location) {
-  console.log("Ricerca");
+
+//Creo una funzione per inserire i lavori nella ricerca, rendendo la funzione case insensitive
+
+const searchJobs = function (title, location) {
+  console.log("Searching a job");
 
   title = title.toLowerCase();
   location = location.toLowerCase();
-
   const results = [];
   for (let i = 0; i < jobs.length; i++) {
-    const job = jobs[i];
-    const jobTitle = job.title.toLowerCase();
-    const jobLocation = job.location.toLowerCase();
+    let job = jobs[i];
+    let jobTitle = job.title.toLowerCase();
+    let jobLocation = job.location.toLowerCase();
     if (jobTitle.includes(title) && jobLocation.includes(location)) {
       results.push(job);
     }
   }
-
-  console.log("Research results:", results);
+  console.log("research results:", results);
   return results;
-}
+};
 
-// mostro i risultati nella pagina
-function displayResults() {
+//Mostro i risultati nella pagina
+const displayResults = function () {
   console.log("Show Results");
 
-//Dichiaro le costanti e richiamo gli elementi
+  /*Dichiaro le costanti e richiamo gli elementi necessari per mostrare i risultati 
+(avevo usato getElementById ma alla fine inserito document.query.selector come fatto a lezione)
 
-  const titleInput = document.getElementById("titleInput");
-  const locationInput = document.getElementById("locationInput");
- 
-// Verifico se entrambi gli input sono completi altrimenti alert
+const titleInput = document.getElementById("titleInput");
+const locationInput = document.getElementById("locationInput");
+*/
+  const titleInput = document.querySelector("#titleInput");
+  const locationInput = document.querySelector("#locationInput");
+
+  //Verifico se entrambi i campi input sono completi altrimenti non parte la ricerca e mostro alert
+
   if (titleInput.value.trim() === "" || locationInput.value.trim() === "") {
-    showAlert("Enter both your job title and geographic location.");
+    showAlert("Please enter both Job Title and Location to start research.");
     return;
   }
-  /*.trim() lo utilizzo (alla fine altrimenti non va!) 
-  per fare in modo che se l'utente inserisce spazi vuoti, 
-  questo non influenza la ricerca ed inoltre mi permette di evitare
+  /*.trim() lo utilizzo per fare in modo che se l'utente inserisce spazi vuoti, 
+  non influenza la ricerca e mi permette di evitare di scatenare
   la ricerca se non sono completi entrambi i campi altrimenti ALERT che blocca la ricerca
   */
   function showAlert(message) {
-    alert(message);
+    alert(message); //ALERT
   }
-  const resultsCount = document.getElementById("resultsCount"); // elemento counter
+  const resultCount = document.querySelector("#resultsCount");
   const results = searchJobs(titleInput.value, locationInput.value);
-  const count = results.length; // counter dei risultati
-//const resultsList = document.getElementById("resultsList");
+  const count = results.length; //counter risultati
 
   console.log("Jobs found:", count);
-  resultsCount.textContent = `Jobs Result: ${count}`; // Mostro il counter
+  resultsCount.textContent = `Jobs Result: ${count}`;
   resultsList.innerHTML = "";
 
+  let resultsHTML = "";
+  for (let i = 0; i < count; i++) {
+    let job = results[i];
+    resultsHTML += `<li>${job.title} | ${job.location}</li>`;
+  }
+  resultsList.innerHTML = resultsHTML;
+  //Svuoto campi Input dopo aver mostrato i risultati
+  titleInput.value = "";
+  locationInput.value = "";
   /*
       Qui avevo usato append.Child per completare la funzione e mostrare i risultati
       for (let i = 0; i < count; i++) {
@@ -187,20 +199,10 @@ function displayResults() {
     }
     
      Alla fine ho usato innerHTML che effettivamente era anche più breve!
-     count è dichiarata sopra per creare il counter inserzioni
+     
   */
+};
 
-  let resultsHTML = ""; 
-  for (let i = 0; i < count; i++) {
-    const job = results[i];
-    resultsHTML += `<li>${job.title} - ${job.location}</li>`;
-  }
-  resultsList.innerHTML = resultsHTML;
-  //Svuoto i campi input dop aver mostrato i risultati
-  titleInput.value = "";
-  locationInput.value = "";
-}
-
-//Evento che scatena al click la ricerca e fa vedere i risultati
-const searchButton = document.getElementById("searchButton");
+//evento che SOLO al clickscatena la ricerca e mostra i risuòtati
+const searchButton = document.querySelector("#searchButton");
 searchButton.addEventListener("click", displayResults);
